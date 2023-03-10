@@ -12,7 +12,6 @@ async function bootstrap() {
   if (process.env.NODE_ENV !== Environment.Production) {
     setupSwagger(app);
   }
-
   await app.listen(3000);
 }
 
@@ -26,5 +25,4 @@ function setupSwagger(app: INestApplication) {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
 }
-
 bootstrap();
