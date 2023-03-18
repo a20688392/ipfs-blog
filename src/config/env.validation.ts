@@ -8,6 +8,7 @@ import {
 } from "class-validator";
 
 export enum Environment {
+  Local = "local",
   Development = "development",
   Production = "production",
   Test = "test",
@@ -31,7 +32,7 @@ class EnvironmentVariables {
   DB_USERNAME: string;
 
   @IsString()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   DB_PASSWORD: string;
 
   @IsString()
