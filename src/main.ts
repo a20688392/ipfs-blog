@@ -22,6 +22,12 @@ async function bootstrap() {
     });
     app.useGlobalInterceptors(new SentryInterceptor());
   }
+  const white_list = process.env.CORS_WHITE.split(",");
+  app.enableCors({
+    origin: white_list,
+    methods: [process.env.CORS_METHOD],
+    credentials: true,
+  });
   await app.listen(3000);
 }
 
