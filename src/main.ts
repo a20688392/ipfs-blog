@@ -1,7 +1,9 @@
 import { INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import * as Sentry from "@sentry/node";
 import * as dotenv from "dotenv";
+import { SentryInterceptor } from "sentry/sentry.interceptor";
 
 import { AppModule } from "./app.module";
 import { Environment } from "./config/env.validation";
@@ -12,6 +14,20 @@ async function bootstrap() {
   if (process.env.NODE_ENV !== Environment.Production) {
     setupSwagger(app);
   }
+  if (process.env.NODE_ENV !== Environment.Local) {
+    Sentry.init({
+      dsn: process.env.SENTRY_DSN,
+      tracesSampleRate: 1.0,
+      environment: process.env.NODE_ENV,
+    });
+    app.useGlobalInterceptors(new SentryInterceptor());
+  }
+  const white_list = process.env.CORS_WHITE.split(",");
+  app.enableCors({
+    origin: white_list,
+    methods: [process.env.CORS_METHOD],
+    credentials: true,
+  });
   await app.listen(3000);
 }
 
