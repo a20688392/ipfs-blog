@@ -1,6 +1,7 @@
 stages:
   - lint
   - sonar
+  - dev-deploy
 eslint:
   stage: lint
   #image: node:18
@@ -40,3 +41,21 @@ sonarqube-check:
   only:
     - master
     - test
+
+dev-deploy:
+  stage: dev-deploy
+  tags:
+    - ssh_docker
+  before_script:
+    - mkdir ~/.ssh
+    - (echo "$DEV_SSH_PRIVATE_KEY") > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - ssh develop@$DEV_HOST "cd backend; git status; git pull origin develop; docker-compose down -v; docker rmi backend_backend; docker-compose up -d;"
+  environment:
+    name: develop
+    url: $DEV_BACKEND_URL
+  only:
+    - develop
+  when: manual
