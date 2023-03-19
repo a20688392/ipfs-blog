@@ -1,0 +1,9 @@
+.husky
+.vscode
+dist
+mysql
+node_modules
+.dockerignore
+Dockerfile
+npm-debug
+.log
