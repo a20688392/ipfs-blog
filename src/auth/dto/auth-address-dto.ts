@@ -11,20 +11,26 @@ export class AuthAddressDto {
   @IsNotEmpty({
     message: "address 為必填欄位。",
   })
+  @IsString({
+    message: "address 是一段字串。",
+  })
   @Length(42, 42, { message: "address 長度只有 42 個字元。" })
-  @IsString()
   public readonly address: string;
 
   @ApiProperty({
     required: true,
     description: "metamask 驗證碼",
     example: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    minLength: 132,
-    maxLength: 132,
+    minLength: 128,
+    maxLength: 128,
   })
-  @IsNotEmpty()
-  @IsString()
-  @Length(132, 132)
+  @IsNotEmpty({
+    message: "nonce 為必填欄位。",
+  })
+  @IsString({
+    message: "nonce 是一段字串。",
+  })
+  @Length(128, 128, { message: "nonce 長度只有 128 個字元。" })
   public readonly nonce: string;
 
   @ApiProperty({
@@ -35,12 +41,21 @@ export class AuthAddressDto {
     minLength: 132,
     maxLength: 132,
   })
-  @IsNotEmpty()
-  @IsString()
-  @Length(132, 132)
+  @IsNotEmpty({
+    message: "signature 為必填欄位。",
+  })
+  @IsString({
+    message: "signature 是一段字串。",
+  })
+  @Length(132, 132, { message: "signature 長度只有 132 個字元。" })
   public readonly signature: string;
 }
 
-export class AuthAddressCheckDto extends PickType(AuthAddressDto, [
+export class GenerateNonceDto extends PickType(AuthAddressDto, [
   "address",
+] as const) {}
+
+export class LoginDto extends PickType(AuthAddressDto, [
+  "address",
+  "signature",
 ] as const) {}

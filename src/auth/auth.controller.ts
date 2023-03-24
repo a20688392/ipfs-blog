@@ -1,32 +1,34 @@
 import {
   Controller,
   Get,
+  HttpCode,
   HttpStatus,
   Param,
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
 import {
+  ApiCreatedResponse,
   ApiNotFoundResponse,
-  ApiOkResponse,
   ApiTags,
   ApiUnprocessableEntityResponse,
 } from "@nestjs/swagger";
 
 import { AuthService } from "./auth.service";
-import { AuthAddressCheckDto } from "./dto/auth-address-dto";
-import { CheckEntityError } from "./exceptions/check-entity-error.exception";
+import { GenerateNonceDto } from "./dto/auth-address-dto";
 import { CheckNotFoundError } from "./exceptions/check-notfound-error.exception";
-import { CheckFoundRespose } from "./respose/check-found.respose";
+import { GenerateNonceEntityError } from "./exceptions/generate-nonce-entity-error.exception";
+import { GenerateNonceRespose } from "./respose/generate-nonce.respose";
 
 @ApiTags("Auth")
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+  @HttpCode(HttpStatus.CREATED)
   @Get("/login/:address")
-  @ApiOkResponse({
-    description: "有此使用者",
-    type: CheckFoundRespose,
+  @ApiCreatedResponse({
+    description: "產生 nonce",
+    type: GenerateNonceRespose,
   })
   @ApiNotFoundResponse({
     description: "無此使用者",
@@ -34,7 +36,7 @@ export class AuthController {
   })
   @ApiUnprocessableEntityResponse({
     description: "資料格式不對",
-    type: CheckEntityError,
+    type: GenerateNonceEntityError,
   })
   @UsePipes(
     new ValidationPipe({
@@ -44,7 +46,7 @@ export class AuthController {
       whitelist: true,
     }),
   )
-  async UserCheck(@Param() checkDto: AuthAddressCheckDto) {
-    return this.authService.userCheck(checkDto);
+  async generateNonce(@Param() MetaMaskDto: GenerateNonceDto) {
+    return this.authService.generateNonce(MetaMaskDto);
   }
 }

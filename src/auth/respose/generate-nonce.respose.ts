@@ -1,17 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class CheckFoundRespose {
+export class GenerateNonceRespose {
   @ApiProperty({
     type: "number",
     description: "HTTP 回應代碼",
-    example: "200",
+    example: "201",
   })
   public readonly StatusCode: number;
 
   @ApiProperty({
     type: "string",
     description: "回應訊息",
-    example: "有此使用者",
+    example: "創建 nonce",
   })
   public readonly message: string;
 }
