@@ -10,7 +10,7 @@ export class GenerateTokenRespose {
 
   @ApiProperty({
     type: "string",
-    description: "回應訊息",
+    description: "產生 token",
     example: "創建 token",
   })
   public readonly message: string;

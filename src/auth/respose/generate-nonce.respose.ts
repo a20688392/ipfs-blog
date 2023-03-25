@@ -10,8 +10,8 @@ export class GenerateNonceRespose {
 
   @ApiProperty({
     type: "string",
-    description: "回應訊息",
-    example: "創建 nonce",
+    description: "產生 nonce",
+    example: "17844f25-307c-4fff-be0a-26265b7104c6",
   })
   public readonly message: string;
 }

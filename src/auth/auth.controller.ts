@@ -27,6 +27,14 @@ import { GenerateTokenRespose } from "./respose/generate-token.respose";
 
 @ApiTags("Auth")
 @Controller("auth")
+@UsePipes(
+  new ValidationPipe({
+    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+    stopAtFirstError: false,
+    disableErrorMessages: false,
+    whitelist: true,
+  }),
+)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @HttpCode(HttpStatus.CREATED)
@@ -43,14 +51,6 @@ export class AuthController {
     description: "資料格式不對",
     type: GenerateNonceError,
   })
-  @UsePipes(
-    new ValidationPipe({
-      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-      stopAtFirstError: false,
-      disableErrorMessages: false,
-      whitelist: true,
-    }),
-  )
   async generateNonce(@Param() MetaMaskDto: GenerateNonceDto) {
     return this.authService.generateNonce(MetaMaskDto);
   }
