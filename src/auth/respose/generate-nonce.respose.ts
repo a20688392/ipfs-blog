@@ -13,5 +13,5 @@ export class GenerateNonceRespose {
     description: "產生 nonce",
     example: "17844f25-307c-4fff-be0a-26265b7104c6",
   })
-  public readonly message: string;
+  public readonly nonce: string;
 }
