@@ -17,7 +17,7 @@ import {
 import { AuthService } from "./auth.service";
 import { GenerateNonceDto } from "./dto/auth-address-dto";
 import { CheckNotFoundError } from "./exceptions/check-notfound-error.exception";
-import { GenerateNonceEntityError } from "./exceptions/generate-nonce-entity-error.exception";
+import { GenerateNonceError } from "./exceptions/generate-nonce-error.exception";
 import { GenerateNonceRespose } from "./respose/generate-nonce.respose";
 
 @ApiTags("Auth")
@@ -36,7 +36,7 @@ export class AuthController {
   })
   @ApiUnprocessableEntityResponse({
     description: "資料格式不對",
-    type: GenerateNonceEntityError,
+    type: GenerateNonceError,
   })
   @UsePipes(
     new ValidationPipe({

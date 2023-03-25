@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class GenerateNonceEntityError {
+export class GenerateNonceError {
   @ApiProperty({
     type: "number",
     description: "HTTP 回應代碼",
