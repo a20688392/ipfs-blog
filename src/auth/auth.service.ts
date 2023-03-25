@@ -4,16 +4,21 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import { recoverPersonalSignature } from "eth-sig-util";
 import { UserEntity } from "src/users/entities/user.entity";
 import { UsersService } from "src/users/users.service";
 import { v4 as uuidv4 } from "uuid";
 
 import { GenerateNonceDto, LoginDto } from "./dto/auth-address-dto";
+import { JwtUser } from "./jwt/models/jwt.interface";
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
   async generateNonce(MetaMaskDto: GenerateNonceDto) {
     const { address } = MetaMaskDto;
     const nonce = uuidv4();
@@ -54,12 +59,13 @@ export class AuthService {
       });
     }
     //save your user here (i.e var user = await this.usersService.createWalletAccountIfNotExist(createUserDto);)
-    // const payload: JwtUser = {
-    //   account_address: metamaskAddress,
-    // };
+    const payload: JwtUser = {
+      id: user_data.id,
+      address: address,
+      email: user_data.email,
+    };
 
-    // const access_token = this.jwtService.sign(payload);
-    // return access_token;
-    return recoveredAddr;
+    const access_token = this.jwtService.sign(payload);
+    return access_token;
   }
 }
