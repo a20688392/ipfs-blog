@@ -11,12 +11,17 @@ import {
 } from "@nestjs/common";
 import {
   ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiParam,
   ApiTags,
   ApiUnprocessableEntityResponse,
 } from "@nestjs/swagger";
 
 import { CreateUserDto } from "./dto/create-user.dto";
 import { CreateUserError } from "./exceptions/create-error.exception";
+import { SelectNotFoundError } from "./exceptions/select-notfound-error.exception";
+import { SelectUserRespose } from "./respose/select-user.respose";
 import { UsersService } from "./users.service";
 
 @ApiTags("User")
@@ -46,6 +51,16 @@ export class UsersController {
   }
 
   @Get(":username")
+  @ApiOkResponse({
+    description: "搜尋使用者成功",
+    type: SelectUserRespose,
+  })
+  @ApiNotFoundResponse({
+    description: "搜尋使用者失敗",
+    type: SelectNotFoundError,
+  })
+  @HttpCode(HttpStatus.OK)
+  @ApiParam({ name: "username", example: "Jhon" })
   findOne(@Param("username") username: string) {
     return this.usersService.findOne(username);
   }
