@@ -47,7 +47,7 @@ export class GenerateTokenRespose {
       id: 1,
       name: "Jhon",
       address: "0x264D6BF791f6Be6F001A95e895AE0a904732d473",
-      emai: "jhon@gmail.com",
+      email: "jhon@gmail.com",
       photo:
         "https://www.gravatar.com/avatar/490311069a0a679192286d1ab009ae9a?s=800&d=identicon",
     },

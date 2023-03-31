@@ -11,7 +11,6 @@ export class CheckNotFoundError {
   @ApiProperty({
     type: "string",
     description: "錯誤訊息",
-    isArray: true,
     example: "無此使用者。",
   })
   public readonly error: string;

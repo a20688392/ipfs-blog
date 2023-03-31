@@ -68,7 +68,7 @@ export class AuthService {
       id: user_data.id,
       name: user_data.username,
       address: address,
-      emai: user_data.email,
+      email: user_data.email,
       photo:
         "https://www.gravatar.com/avatar/490311069a0a679192286d1ab009ae9a?s=800&d=identicon",
     };
