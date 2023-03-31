@@ -9,6 +9,13 @@ import { UserEntity } from "./entities/user.entity";
 
 @Injectable()
 export class UsersService {
+  async findOne(username: string) {
+    const user_data = await this.findUserName(username);
+    return {
+      statusCode: HttpStatus.OK,
+      user_data,
+    };
+  }
   async createByMetaMask(userDto: CreateUserDto) {
     const valid_address = await this.findByMetaMask(userDto.address);
     const valid_name = await this.findUserName(userDto.username);

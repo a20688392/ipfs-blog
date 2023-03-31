@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -19,6 +21,14 @@ import { UsersService } from "./users.service";
 
 @ApiTags("User")
 @Controller("users")
+@UsePipes(
+  new ValidationPipe({
+    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+    stopAtFirstError: false,
+    disableErrorMessages: false,
+    whitelist: true,
+  }),
+)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -31,15 +41,12 @@ export class UsersController {
     type: CreateUserError,
   })
   @HttpCode(HttpStatus.CREATED)
-  @UsePipes(
-    new ValidationPipe({
-      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-      stopAtFirstError: false,
-      disableErrorMessages: false,
-      whitelist: true,
-    }),
-  )
   metaMaskcreate(@Body() metaMaskDto: CreateUserDto) {
     return this.usersService.createByMetaMask(metaMaskDto);
+  }
+
+  @Get(":username")
+  findOne(@Param("username") username: string) {
+    return this.usersService.findOne(username);
   }
 }
