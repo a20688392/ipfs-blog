@@ -6,7 +6,7 @@ export class CheckNotFoundError {
     description: "HTTP 回應代碼",
     example: "404",
   })
-  public readonly StatusCode: number;
+  public readonly statusCode: number;
 
   @ApiProperty({
     type: "string",
