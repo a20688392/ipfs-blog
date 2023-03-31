@@ -34,7 +34,7 @@ export class AuthService {
     user.nonce = nonce;
     await user.save();
     return {
-      StatusCode: HttpStatus.CREATED,
+      statusCode: HttpStatus.CREATED,
       nonce: nonce,
     };
   }
@@ -58,14 +58,24 @@ export class AuthService {
         message: "Signature is not correct.",
       });
     }
-    //save your user here (i.e var user = await this.usersService.createWalletAccountIfNotExist(createUserDto);)
+
     const payload: JwtUser = {
       id: user_data.id,
       address: address,
       email: user_data.email,
     };
-
+    const userData = {
+      id: user_data.id,
+      address: address,
+      emai: user_data.email,
+      photo:
+        "https://www.gravatar.com/avatar/490311069a0a679192286d1ab009ae9a?s=800&d=identicon",
+    };
     const access_token = this.jwtService.sign(payload);
-    return access_token;
+    return {
+      StatusCode: HttpStatus.CREATED,
+      access_token,
+      userData,
+    };
   }
 }
