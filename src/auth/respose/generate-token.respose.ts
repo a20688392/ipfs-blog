@@ -25,6 +25,10 @@ export class GenerateTokenRespose {
           description: "使用者 ID。  \n",
           type: "string",
         },
+        name: {
+          description: "使用者 名稱。  \n",
+          type: "string",
+        },
         address: {
           description: "使用者 錢包地址。  \n",
           type: "string",
@@ -41,6 +45,7 @@ export class GenerateTokenRespose {
     },
     example: {
       id: 1,
+      name: "Jhon",
       address: "0x264D6BF791f6Be6F001A95e895AE0a904732d473",
       emai: "jhon@gmail.com",
       photo:
