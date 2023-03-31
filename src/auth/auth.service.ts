@@ -73,7 +73,7 @@ export class AuthService {
     };
     const access_token = this.jwtService.sign(payload);
     return {
-      StatusCode: HttpStatus.CREATED,
+      statusCode: HttpStatus.CREATED,
       access_token,
       userData,
     };

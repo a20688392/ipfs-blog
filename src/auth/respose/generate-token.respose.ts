@@ -6,7 +6,7 @@ export class GenerateTokenRespose {
     description: "HTTP 回應代碼",
     example: "201",
   })
-  public readonly StatusCode: number;
+  public readonly statusCode: number;
 
   @ApiProperty({
     type: "string",
