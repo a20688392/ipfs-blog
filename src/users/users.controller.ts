@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   UsePipes,
   ValidationPipe,
@@ -19,6 +20,7 @@ import {
 } from "@nestjs/swagger";
 
 import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
 import { CreateUserError } from "./exceptions/create-error.exception";
 import { SelectNotFoundError } from "./exceptions/select-notfound-error.exception";
 import { SelectUserRespose } from "./respose/select-user.respose";
@@ -63,5 +65,10 @@ export class UsersController {
   @ApiParam({ name: "username", example: "Jhon" })
   findOne(@Param("username") username: string) {
     return this.usersService.findOne(username);
+  }
+
+  @Patch(":id")
+  updateOne(@Param("id") id: number, @Body() userDto: UpdateUserDto) {
+    return this.usersService.updateOne(id, userDto);
   }
 }

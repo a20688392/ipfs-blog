@@ -4,12 +4,19 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 
 import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserEntity } from "./entities/user.entity";
 
 @Injectable()
 export class UsersService {
+  constructor(
+    @InjectRepository(UserEntity)
+    private repository: Repository<UserEntity>,
+  ) {}
   async findOne(username: string) {
     const user_data = await this.findUserName(username);
     if (user_data === null) {
@@ -30,6 +37,22 @@ export class UsersService {
       userData,
     };
   }
+
+  async updateOne(id: number, userDto: UpdateUserDto) {
+    const user_data = await this.findUser(id);
+    if (user_data === null) {
+      throw new NotFoundException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: "不存在此使用者。",
+      });
+    }
+    await this.repository.update(user_data.id, userDto);
+    return {
+      statusCode: HttpStatus.OK,
+      message: "修改成功",
+    };
+  }
+
   async createByMetaMask(userDto: CreateUserDto) {
     const valid_address = await this.findByMetaMask(userDto.address);
     const valid_name = await this.findUserName(userDto.username);
@@ -65,6 +88,15 @@ export class UsersService {
     const validator = await UserEntity.findOne({
       where: {
         address: address,
+      },
+    });
+    return validator;
+  }
+
+  async findUser(id: number): Promise<UserEntity | undefined> {
+    const validator = await UserEntity.findOne({
+      where: {
+        id: id,
       },
     });
     return validator;
